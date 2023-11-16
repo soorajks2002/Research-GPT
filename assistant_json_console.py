@@ -38,7 +38,7 @@ def extract_abstract(thread_id, assistant_id):
     message = client.beta.threads.messages.create(
         thread_id=thread_id,
         role="user",
-        content="Get the abstract of the paper",
+        content="Extract the complete abstract part from the paper.",
     )
 
     run = client.beta.threads.runs.create(
@@ -66,7 +66,7 @@ def paraphrase_abstract(thread_id, assistant_id, tone, length):
     message = client.beta.threads.messages.create(
         thread_id=thread_id,
         role="user",
-        content=f"Paraphrase the abstract with {tone} tone and {length} the abstract from the paper in terms of length",
+        content=f"Paraphrase the abstract with {tone} tone and it's length should be {length} the original abstract.",
     )
 
     run = client.beta.threads.runs.create(
@@ -111,7 +111,7 @@ if __name__ == "__main__":
         "Please select the response length of paraphrase : \n1. Same length (default)\n2. Twice the length\n3. Thrice the length\n"))
 
     tone = "Aggressive" if tone == 3 else "Creative" if tone == 2 else "Academic"
-    length = "thrice the length of " if length == 3 else "twice the length of " if length == 2 else "same length as"
+    length = "thrice the length of " if length == 3 else "twice the length of " if length == 2 else "same length as "
 
     gpt_paraphrase_response = paraphrase_abstract(thread.id, assistant_id, tone, length)
     

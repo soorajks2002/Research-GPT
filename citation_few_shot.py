@@ -5,6 +5,8 @@ import time
 client = Client(api_key=key)
 
 
+# prompt which describes the functioning of the gpt-model along with 1 example, thus making it few-shot approch
+
 system_prompt = '''You have to generate answers to a given problem statement based on the information you are provided with. The user would provide both the problem statement and the source from which the answer needs to be generated. The user's input will always follow the given format
 
 Question : 
@@ -36,7 +38,7 @@ Answer : While GPT is a decoder model (Kumar et al.), BERT is an encoder transfo
 
 
 
-
+# Sample input given in the assignment
 
 sample_input_1 = '''Question: What is the difference between GPT and BERT models?
 
@@ -51,7 +53,7 @@ Source 3 text: LSTMs have been very popular for sequence-to-sequence tasks but h
 '''
 
 
-
+# Self-created sample input to test the prompt
 
 sample_input_2 = '''Question: Why  is positional encoding needed ?
 
@@ -62,6 +64,8 @@ Source 2 author: Rajesh Singh
 Source 2 text: In natural language processing models, like GPT and BERT, positional encoding is essential for capturing the temporal relationships between words. It enables the model to discern the position of each token in a sequence, contributing to a more accurate understanding of the context.'''
 
 
+# format of sample if you want to test the model
+
 sample_input_3 = '''Question :
 
 Source 1 author:
@@ -69,11 +73,13 @@ Source 1 text:
 '''
 
 
+# Making the API Call
+
 completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": sample_input_1}             # Replace content with any other input to test the model
+        {"role": "user", "content": sample_input_2}             # Replace content with any other input to test the model
     ],
     temperature=0.2,                                             # Hyperparameters tuned accordingly
     top_p=0.2,
@@ -81,4 +87,4 @@ completion = client.chat.completions.create(
     presence_penalty=0.2,
 )
 
-print(completion.choices[0].message.content)
+print(f"\n{completion.choices[0].message.content}\n")

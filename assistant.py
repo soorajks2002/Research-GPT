@@ -9,12 +9,18 @@ file = client.files.create(
     purpose='assistants'
 )
 
-tone = "creative"
-size = "small"
+tone = int(input("Please select the tone of the response you want : \n1. Academic\n2. Creative\n3. Aggressive\n"))
+length = int(input("Please select the response length you need : \n1. Short\n2. Medium\n3. Long\n"))
+
+tone = "Academic" if tone==1 else "Creative" if tone==2 else "Aggressive"
+length = "Short" if length == 1 else "Medium" if length == 2 else "Long"
+
+# print(tone, " and ", length)
+
 
 assistant = client.beta.assistants.create(
     name="Research Assistant",
-    description=f"You are great at answering questions from given pdf document. Your answers are solely based on the research document. Your answers is always {tone} in nature and {size} in size",
+    description=f"You are a research assistant. You would respond to user's queries regarding any research paper they share. Your response should be {tone} and output length should be {length}. ",
     model="gpt-4-1106-preview",
     tools=[{"type": "retrieval"}],
     file_ids=[file.id]
@@ -22,27 +28,31 @@ assistant = client.beta.assistants.create(
 
 thread = client.beta.threads.create()
 
-message = client.beta.threads.messages.create(
-    thread_id=thread.id,
-    role="user",
-    content="who are the authors of this research paper ?",
-    file_ids=[file.id]
-)
+for i in range(3) :
+    
+    user_input = input("\nUser : ")
 
-run = client.beta.threads.runs.create(
-    thread_id=thread.id,
-    assistant_id=assistant.id,
-)
-
-while run.status != "completed":
-    time.sleep(1)
-    run = client.beta.threads.runs.retrieve(
+    message = client.beta.threads.messages.create(
         thread_id=thread.id,
-        run_id=run.id
+        role="user",
+        content=user_input,
+        # file_ids=[file.id]
     )
 
-messages = client.beta.threads.messages.list(thread_id=thread.id)
+    run = client.beta.threads.runs.create(
+        thread_id=thread.id,
+        assistant_id=assistant.id,
+    )
 
-print(messages.data[0].content[0].text.value)
+    while run.status != "completed":
+        time.sleep(1)
+        run = client.beta.threads.runs.retrieve(
+            thread_id=thread.id,
+            run_id=run.id
+        )
+
+    messages = client.beta.threads.messages.list(thread_id=thread.id)
+
+    print("\nAssistant : " , messages.data[0].content[0].text.value)
 
 client.files.delete(file.id)

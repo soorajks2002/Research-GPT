@@ -12,7 +12,7 @@ git clone https://github.com/soorajks2002/Research-GPT.git
 
 2. Add your OpenAI api key
 ```bash
-Less-Form\api_key.py
+Research-GPT\api_key.py
         key = 'your open ai api key'
 ```
 if you dont'have an OpenAI API-key, generate one from [here](https://platform.openai.com/account/api-keys).

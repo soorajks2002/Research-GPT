@@ -12,14 +12,33 @@ system_prompt = '''You have to generate answers to a given problem statement bas
 Question : 
 
 Source 1 author :
-Source 1 data :
+Source 1 text :
 
 Source 2 author :
-Source 2 data :
+Source 2 text :
 
 The number of sources could be different, like some cases might have 1, 2, 3 or n numbers of sources.
-The answer must be generated strictly based on data provided by the user from different sources.
+Don't add additional information to your response, stick to generating answer from text provided in the source and don't overexplain it. 
+And only select source text which are relevant to the question. 
 And most importantly, your response should always have a citation of the author wherever you are using the source written by them, and it should follow the traditional citation format i.e. (author_name, et al.).
+'''
+
+
+system_prompt_1 = '''You have to generate answers to a given problem statement based on the information you are provided with citation to authors of the source. The user would provide both the problem statement and the source from which the answer needs to be generated. The user's input will always follow the given format
+
+Question : 
+
+Source 1 author :
+Source 1 text :
+
+Source 2 author :
+Source 2 text :
+
+The number of sources could be different, like some cases might have 1, 2, 3 or n numbers of sources.
+The answer you generate should only contain contents from the source text and don't add additional context to your answer.
+And most importantly, your response should always have the citation of the author wherever you are using the source written by them, and it should follow the traditional citation format i.e. (author_name, et al.).
+Add the citation properly don't mix up the author with different author's source.
+And if you can't find nothing to create an answer from the source then return "Nothing relevant in the source text"
 '''
 
 
@@ -61,14 +80,27 @@ Source 1 author:
 Source 1 text: 
 '''
 
+# Sample input given in the assignment
+
+sample_input_4 = '''Question: What is LSTM ?
+
+Source 1 author: Trinita Roy
+Source 1 text: BERT is an encoder transformer model which is trained on two tasks - masked LM and next sentence prediction.
+
+Source 2 author: Asheesh Kumar
+Source 2 text: GPT is a decoder model that works best on sequence generation tasks.
+
+Source 3 author: Siddhant Jain
+Source 3 text: LSTMs have been very popular for sequence-to-sequence tasks but have limitations in processing long texts.
+'''
 
 # Making the Opena-AI API call
 
 completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
-        {"role": "system", "content": system_prompt},
-        {"role": "user", "content": sample_input_2}         # Replace content with the input you want to test
+        {"role": "system", "content": system_prompt_1},
+        {"role": "user", "content": sample_input_4}         # Replace content with the input you want to test
     ],
     temperature=0.2,                                        # Hyperparameters tuned accordingly
     top_p=0.2,

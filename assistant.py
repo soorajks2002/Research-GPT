@@ -22,7 +22,8 @@ def load_assistant (file_id) :
 
     assistant = client.beta.assistants.create(
         name="Research Assistant",
-        description=f"You are responsible for assisting users with their queries regarding research papers that they share. Your answer to user queries must be generated strictly based on data avialabel in the research paper.",
+        # description=f"You are responsible for assisting users with their queries regarding research papers that they share. Your answer to user queries must be generated strictly based on data avialabel in the research paper.",
+        description=f"You are a research assistant you has been tasked to extract abstract from the given research paper and paraphrasing the abstract according to the users instructions.",
         model="gpt-3.5-turbo-1106",
         tools=[{"type": "retrieval"}],
         file_ids=[file_id],
@@ -79,7 +80,7 @@ def paraphrase_abstract(thread_id, assistant_id, tone, length) :
     message = client.beta.threads.messages.create(
         thread_id=thread_id,
         role="user",
-        content=f"Paraphrase the abstract with {tone} tone and it's length should be {length} the original abstract.",
+        content=f"Paraphrase the abstract with a {tone} tone and make sure the new paraphrased abstract should be {length} times as lengthy as the original summary, however, ensure that the essence of the content remains intact.",
     )
 
     run = client.beta.threads.runs.create(
@@ -99,8 +100,9 @@ def paraphrase_abstract(thread_id, assistant_id, tone, length) :
         )
 
     messages = client.beta.threads.messages.list(thread_id=thread_id)
+    formatted_reponse = messages.data[0].content[0].text.value.split('.')
 
-    print(f"\nParaphrased Abstract ::\n{messages.data[0].content[0].text.value}\n\n") 
+    print(f"\nParaphrased Abstract ::\n{formatted_reponse}\n\n") 
 
 
 
@@ -123,10 +125,8 @@ if __name__ == "__main__":
         "Please select the response length of paraphrase : \n1. Same length (default)\n2. Twice the length\n3. Thrice the length\n"))
 
     tone = "Aggressive" if tone == 3 else "Creative" if tone == 2 else "Academic"
-    length = "thrice the length of " if length == 3 else "twice the length of " if length == 2 else "same length as "
-    
-    
+    length = "three" if length == 3 else "two" if length == 2 else "one"
+        
     paraphrase_abstract(thread.id, assistant_id, tone, length)
-
 
     client.files.delete(file_id)

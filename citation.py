@@ -20,6 +20,7 @@ Source 2 text :
 The number of sources could be different, like some cases might have 1, 2, 3 or n numbers of sources.
 The answer you generate should only contain contents from the source text and don't add additional context to your answer.
 And most importantly, your response should always have the citation of the author wherever you are using the source written by them, and it should follow the traditional citation format i.e. (author_name, et al.).
+You should not generate the answer without adding citation to the author.
 Add the citation properly don't mix up the author with different author's source.
 And if you can't find nothing to create an answer from the source then return "Nothing relevant in the source text"
 '''
@@ -82,10 +83,10 @@ completion = client.chat.completions.create(
         {"role": "system", "content": system_prompt},
         {"role": "user", "content": sample_input_3}         # Replace content with the input you want to test
     ],
-    temperature=0.3,                                        # Hyperparameters tuned accordingly
-    top_p=0.4,
-    frequency_penalty=0.3,
-    presence_penalty=0.8,
+    temperature=0.2,                                        # Hyperparameters tuned accordingly
+    top_p=0.3,
+    frequency_penalty=0.2,
+    presence_penalty=0.3,
 )
 
 print(f"\n{completion.choices[0].message.content}\n")

@@ -76,12 +76,19 @@ def extract_abstract(thread_id, assistant_id) :
 def paraphrase_abstract(thread_id, assistant_id, tone, length) :
     '''Paraphrase the abstract from the research paper with given tone and length of response.'''
     
+    if length == 'one' :
+        message =  client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=f"Paraphrase the extracted abstract with a {tone} tone and the new paraphrased abstract most importantly should be of same length as the original extracted abstract. However, ensure that the essence of the paraphrased abstract remains intact.",
+        )
     
-    message = client.beta.threads.messages.create(
-        thread_id=thread_id,
-        role="user",
-        content=f"Paraphrase the extracted abstract with a {tone} tone and the new paraphrased abstract most importantly should be {length} times as lengthy as the original extracted abstract. However, ensure that the essence of the paraphrased abstract remains intact.",
-    )
+    else :
+        message = client.beta.threads.messages.create(
+            thread_id=thread_id,
+            role="user",
+            content=f"Paraphrase the extracted abstract with a {tone} tone and the new paraphrased abstract most importantly should be {length} times as lengthy as the original extracted abstract. However, ensure that the essence of the paraphrased abstract remains intact.",
+        )
 
     run = client.beta.threads.runs.create(
         thread_id=thread_id,

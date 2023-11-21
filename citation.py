@@ -7,24 +7,7 @@ client = Client(api_key=key)
 
 # prompt which describes the functioning of the gpt-model
 
-system_prompt = '''You have to generate answers to a given problem statement based on the information you are provided with. The user would provide both the problem statement and the source from which the answer needs to be generated. The user's input will always follow the given format
-
-Question : 
-
-Source 1 author :
-Source 1 text :
-
-Source 2 author :
-Source 2 text :
-
-The number of sources could be different, like some cases might have 1, 2, 3 or n numbers of sources.
-Don't add additional information to your response, stick to generating answer from text provided in the source and don't overexplain it. 
-And only select source text which are relevant to the question. 
-And most importantly, your response should always have a citation of the author wherever you are using the source written by them, and it should follow the traditional citation format i.e. (author_name, et al.).
-'''
-
-
-system_prompt_1 = '''You have to generate answers to a given problem statement based on the information you are provided with citation to authors of the source. The user would provide both the problem statement and the source from which the answer needs to be generated. The user's input will always follow the given format
+system_prompt = '''You have to generate answers to a given problem statement based on the information you are provided with citation to authors of the source. The user would provide both the problem statement and the source from which the answer needs to be generated. The user's input will always follow the given format
 
 Question : 
 
@@ -99,7 +82,7 @@ Source 3 text: LSTMs have been very popular for sequence-to-sequence tasks but h
 completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
-        {"role": "system", "content": system_prompt_1},
+        {"role": "system", "content": system_prompt},
         {"role": "user", "content": sample_input_4}         # Replace content with the input you want to test
     ],
     temperature=0.2,                                        # Hyperparameters tuned accordingly

@@ -25,8 +25,6 @@ And if you can't find nothing to create an answer from the source then return "N
 '''
 
 
-
-
 # Sample input given in the assignment
 
 sample_input_1 = '''Question: What is the difference between GPT and BERT models?
@@ -42,8 +40,6 @@ Source 3 text: LSTMs have been very popular for sequence-to-sequence tasks but h
 '''
 
 
-
-
 # Sample input to test
 
 sample_input_2 = '''Question: Why  is positional encoding needed ?
@@ -54,18 +50,9 @@ Source 2 author: Rajesh Singh
 Source 2 text: In natural language processing models, like GPT and BERT, positional encoding is essential for capturing the temporal relationships between words. It enables the model to discern the position of each token in a sequence, contributing to a more accurate understanding of the context.
 '''
 
-
-# format of sample if you want to test the model
-
-sample_input_3 = '''Question :
-
-Source 1 author:
-Source 1 text: 
-'''
-
 # Sample input given in the assignment
 
-sample_input_4 = '''Question: What is LSTM ?
+sample_input_3 = '''Question: What is LSTM ?
 
 Source 1 author: Trinita Roy
 Source 1 text: BERT is an encoder transformer model which is trained on two tasks - masked LM and next sentence prediction.
@@ -77,13 +64,23 @@ Source 3 author: Siddhant Jain
 Source 3 text: LSTMs have been very popular for sequence-to-sequence tasks but have limitations in processing long texts.
 '''
 
+
+# format of sample if you want to test the model
+
+sample_input_4 = '''Question :
+
+Source 1 author:
+Source 1 text: 
+'''
+
+
 # Making the Opena-AI API call
 
 completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": sample_input_4}         # Replace content with the input you want to test
+        {"role": "user", "content": sample_input_1}         # Replace content with the input you want to test
     ],
     temperature=0.2,                                        # Hyperparameters tuned accordingly
     top_p=0.2,

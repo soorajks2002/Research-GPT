@@ -80,12 +80,12 @@ completion = client.chat.completions.create(
     model="gpt-3.5-turbo",
     messages=[
         {"role": "system", "content": system_prompt},
-        {"role": "user", "content": sample_input_1}         # Replace content with the input you want to test
+        {"role": "user", "content": sample_input_3}         # Replace content with the input you want to test
     ],
-    temperature=0.2,                                        # Hyperparameters tuned accordingly
-    top_p=0.2,
+    temperature=0.3,                                        # Hyperparameters tuned accordingly
+    top_p=0.4,
     frequency_penalty=0.3,
-    presence_penalty=0.2,
+    presence_penalty=0.8,
 )
 
 print(f"\n{completion.choices[0].message.content}\n")
